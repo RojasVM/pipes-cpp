@@ -1,7 +1,3 @@
-Perfect — here’s the **README.md** content exactly as Markdown text, ready to be saved as a `.txt` file while keeping full Markdown formatting:
-
----
-
 # pipes-cpp
 
 **pipes-cpp** is a modern C++ remake of the classic animated terminal screensaver *“pipes”*.
