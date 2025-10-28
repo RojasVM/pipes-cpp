@@ -157,14 +157,14 @@ static inline int idx_from(Direction in, Direction out){
 
 // ---- Config (defaults) ----
 struct Config {
-  int p=5;
-  int fps=75;
+  int p=8;
+  int fps=100;
   int straight=15;
   long long limit=1000;
-  bool randomStart=false;
+  bool randomStart=true;
   bool noBold=true;
   bool noColor=false;
-  bool keepOnEdge=false;
+  bool keepOnEdge=true;
   bool vivid=true;
 } cfg;
 
