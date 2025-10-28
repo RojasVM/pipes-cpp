@@ -96,9 +96,9 @@ static inline int idx_from(Direction in, Direction out){
 
 // -- Config (defaults as requested)
 struct Config{
-  int p=5, fps=75, straight=15;
+  int p=8, fps=100, straight=15;
   long long limit=1000;
-  bool randomStart=false, noColor=false, keepOnEdge=false, vivid=true;
+  bool randomStart=true, noColor=false, keepOnEdge=true, vivid=true;
 } cfg;
 
 static vector<int> activeTypes, palette;
