@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/pipes.dir/link.d CMakeFiles/pipes.dir/src/main.cpp.o -o pipes
