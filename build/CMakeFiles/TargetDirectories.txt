@@ -1,3 +1,0 @@
-/home/mathias_rojas/Documents/Codigo/Pipes/pipes-cpp/build/CMakeFiles/pipes.dir
-/home/mathias_rojas/Documents/Codigo/Pipes/pipes-cpp/build/CMakeFiles/edit_cache.dir
-/home/mathias_rojas/Documents/Codigo/Pipes/pipes-cpp/build/CMakeFiles/rebuild_cache.dir
