@@ -14,14 +14,14 @@
 #include <conio.h>
 using namespace std;
 
-// -- Directions (no 180° turns)
+// Directions 
 enum Direction { UP=0, RIGHT=1, DOWN=2, LEFT=3 };
 static inline int  rnd(int n){ return rand()%n; }
 static inline void sleep_ms(int ms){ this_thread::sleep_for(chrono::milliseconds(ms)); }
 static inline Direction turn_left(Direction d){ return (Direction)((d+3)%4); }
 static inline Direction turn_right(Direction d){ return (Direction)((d+1)%4); }
 
-// -- Terminal (Windows VT, polled resize)
+// Terminal (Windows VT, polled resize)
 struct Term {
   int W=80, H=25;
   HANDLE hout{}, hin{};
@@ -48,7 +48,7 @@ struct Term {
   int  getch_now(){ return _kbhit()? _getch() : -1; }
 } term;
 
-// -- Glyph types (16-entry table index)
+// Glyph types (16-entry table index)
 struct PipeType { array<string,16> g{}; };
 static PipeType T[10];
 
@@ -67,7 +67,7 @@ static void init_types(){
   T[9].g = { "╿","┎"," ","┒","┛","╾","┒"," "," ","┖","╿","┛","┖"," ","┎","╾" };
 }
 
-// -- Turn index: (in → out) → 1..16
+// -- Turn index: (in -> out) -> 1..16
 static inline int idx_from(Direction in, Direction out){
   if (in==UP   && out==UP)    return 1;
   if (in==UP   && out==RIGHT) return 2;
@@ -85,7 +85,7 @@ static inline int idx_from(Direction in, Direction out){
   return (in==RIGHT?6:16);
 }
 
-// -- Config (defaults as requested)
+// Config (defaults as requested)
 struct Config{
   int p=8, fps=100, straight=15;
   long long limit=1000;
@@ -94,7 +94,7 @@ struct Config{
 
 static vector<int> activeTypes, palette;
 
-// -- ANSI color (bright 90–97, no bold)
+// ANSI color (bright 90–97, no bold)
 static inline string ansi_color(int c){
   if (cfg.noColor) return "";
   int base = cfg.vivid ? 90 : 30;
@@ -102,7 +102,7 @@ static inline string ansi_color(int c){
 }
 static inline string ansi_reset(){ return cfg.noColor ? "" : "\033[0m"; }
 
-// -- Pipe state (deferred palette change)
+// Pipe state (deferred palette change)
 struct State{
   int x=0,y=0;
   Direction in=RIGHT, out=RIGHT;
@@ -110,14 +110,14 @@ struct State{
   int pendingColor=-1, pendingType=-1; // applied on next step
 };
 
-// -- Will leaving screen?
+// Will leaving screen?
 static inline bool would_exit(const State& s, Direction nd){
   int nx=s.x, ny=s.y;
   if (nd==UP) --ny; else if (nd==DOWN) ++ny; else if (nd==LEFT) --nx; else ++nx;
   return nx<0 || nx>=term.W || ny<0 || ny>=term.H;
 }
 
-// -- One step (decide → draw → move)
+// One step (decide -> draw -> move)
 static long long drawn=0;
 static void draw_step(State& s){
   if (s.pendingColor>=0){ s.colorIndex=s.pendingColor; s.pendingColor=-1; }
@@ -149,7 +149,7 @@ static void draw_step(State& s){
   ++drawn;
 }
 
-// -- Runtime hotkeys (Shift)
+// Runtime hotkeys (Shift)
 static void handle_keys_once(){
   if (!term.kbhit()) return;
   int ch = term.getch_now(); if (ch==-1) return;
@@ -162,7 +162,7 @@ static void handle_keys_once(){
   else throw runtime_error("quit");
 }
 
-// -- Pre-run menu (keyboard only)
+// Pre-run menu (keyboard only)
 static void draw_menu(){
   term.clear();
   cout << "\n  PIPES (Windows) — pre-run menu (press Enter to start)\n\n";
@@ -205,7 +205,7 @@ static bool run_menu(){
   }
 }
 
-// -- main
+// main
 int main(){
   srand((unsigned)time(nullptr));
   init_types();
@@ -243,6 +243,3 @@ int main(){
   cout << "Drawn: " << drawn << "\n";
   return 0;
 }
-
-// Compile (Windows MinGW):
-// g++ -std=gnu++17 -O2 -static -static-libgcc -static-libstdc++ pipes_win.cpp -o pipes.exe
