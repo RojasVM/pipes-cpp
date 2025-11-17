@@ -26,14 +26,14 @@
 
 using namespace std;
 
-// ---- Directions ----
+// Directions
 enum Direction { UP=0, RIGHT=1, DOWN=2, LEFT=3 };
 static inline int rnd(int n){ return rand()%n; }
 static inline void sleep_ms(int ms){ this_thread::sleep_for(chrono::milliseconds(ms)); }
 static inline Direction turn_left(Direction d){ return (Direction)((d+3)%4); }
 static inline Direction turn_right(Direction d){ return (Direction)((d+1)%4); }
 
-// ---- Terminal I/O ----
+// Terminal I/O 
 #ifndef _WIN32
 static bool g_resized=false;
 static void on_resize(int){ g_resized=true; }
@@ -119,7 +119,7 @@ struct Term {
   }
 } term;
 
-// ---- Glyph types (16-entry table) ----
+// Glyph types (16-entry table) 
 struct PipeType { array<string,16> g{}; };
 static PipeType T[10];
 
@@ -137,7 +137,7 @@ static void init_types(){
   T[9].g = { "╿","┎"," ","┒","┛","╾","┒"," "," ","┖","╿","┛","┖"," ","┎","╾" };
 }
 
-// ---- Turn index: (in → out) → 1..16 ----
+// Turn index: (in -> out) -> 1..16 
 static inline int idx_from(Direction in, Direction out){
   if (in==UP   && out==UP)    return 1;
   if (in==UP   && out==RIGHT) return 2;
@@ -155,7 +155,7 @@ static inline int idx_from(Direction in, Direction out){
   return (in==RIGHT?6:16);
 }
 
-// ---- Config (defaults) ----
+// Config (defaults) 
 struct Config {
   int p=8;
   int fps=100;
@@ -179,7 +179,7 @@ static inline string ansi_color(int c){
 }
 static inline string ansi_reset(){ return cfg.noColor ? "" : "\033[0m"; }
 
-// ---- Pipe state ----
+// Pipe state 
 struct State {
   int x=0, y=0;
   Direction in=RIGHT, out=RIGHT;
@@ -193,7 +193,7 @@ static inline bool would_exit(const State& s, Direction nd){
   return nx<0 || nx>=term.W || ny<0 || ny>=term.H;
 }
 
-// ---- Step: decide → draw → move ----
+// Step: decide -> draw -> move 
 static long long drawn=0;
 static void draw_step(State& s, const PipeType&){
   s.out = s.in;
@@ -219,7 +219,7 @@ static void draw_step(State& s, const PipeType&){
   ++drawn;
 }
 
-// ---- Hotkeys during run ----
+// Hotkeys during run 
 static void handle_keys_once(){
   if (!term.kbhit()) return;
   int ch = term.getch_now();
@@ -234,7 +234,7 @@ static void handle_keys_once(){
   else throw runtime_error("quit");
 }
 
-// ---- Menu: set params without CLI ----
+// Menu: set params without CLI 
 static void draw_menu(){
   term.clear();
   cout << "\n  PIPES — pre-run menu (press Enter to start)\n\n";
@@ -283,14 +283,14 @@ static bool run_menu(){
   }
 }
 
-// ---- Help ----
+// Help 
 static void print_help(const char* prog){
   cout <<
 "Usage: " << prog << " [no-args shows interactive menu]\n"
 "-p N  -t SET ... -c COL ... -f FPS -s STR -r LIMIT -R -B -C -K -h -v\n";
 }
 
-// ---- main ----
+// main 
 int main(int argc, char** argv){
   ios::sync_with_stdio(false);
   cin.tie(nullptr);
