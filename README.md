@@ -7,7 +7,7 @@ It is fully **cross-platform (Linux / Windows)**, featuring a lightweight core a
 
 ## Build
 
-### Linux (Arch, CachyOS, Ubuntu, etc.)
+### Linux distros
 
 ```bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
